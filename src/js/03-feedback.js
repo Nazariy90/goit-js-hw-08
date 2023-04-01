@@ -1,6 +1,35 @@
+import throttle from 'lodash.throttle';
 const contFormEl = document.querySelector('.feedback-form');
-const fieldChangeFoo = e => {
-  console.log('ytfjj');
+const userData = {};
+
+const contFormFields = () => {
+  const userInfoForm = JSON.parse(localStorage.getItem('feedback-form-state'));
+  if (userInfoForm === null) {
+    return;
+  }
+  for (const key in userInfoForm) {
+    contFormEl.elements[key].value = userInfoForm[key];
+    userData[key] = userInfoForm[key];
+  }
 };
 
-contFormEl.addEventListener('change', fieldChangeFoo);
+contFormFields();
+
+const fieldChangeFoo = e => {
+  const { target: fieldEl } = e;
+  const fieldElValue = fieldEl.value;
+  const fieldElName = fieldEl.name;
+  userData[fieldElName] = fieldElValue;
+  localStorage.setItem('feedback-form-state', JSON.stringify(userData));
+};
+
+contFormElSubmit = event => {
+  event.preventDefault();
+  contFormEl.reset();
+  localStorage.removeItem('feedback-form-state');
+  console.log(userData);
+  userData.email = '';
+  userData.message = '';
+};
+contFormEl.addEventListener('input', throttle(fieldChangeFoo, 500));
+contFormEl.addEventListener('submit', contFormElSubmit);
