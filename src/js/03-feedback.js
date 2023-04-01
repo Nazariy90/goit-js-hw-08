@@ -23,7 +23,7 @@ const fieldChangeFoo = e => {
   localStorage.setItem('feedback-form-state', JSON.stringify(userData));
 };
 
-contFormElSubmit = event => {
+const contFormElSubmit = event => {
   event.preventDefault();
   contFormEl.reset();
   localStorage.removeItem('feedback-form-state');
