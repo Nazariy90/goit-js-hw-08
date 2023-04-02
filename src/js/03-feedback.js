@@ -4,7 +4,7 @@ const userData = {};
 
 const contFormFields = () => {
   const userInfoForm = JSON.parse(localStorage.getItem('feedback-form-state'));
-  if (userInfoForm === null) {
+  if (!userInfoForm) {
     return;
   }
   for (const key in userInfoForm) {
